@@ -1,0 +1,23 @@
+{
+  "name": "skypro-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DiStail88/skypro-backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DiStail88/skypro-backend/issues"
+  },
+  "homepage": "https://github.com/DiStail88/skypro-backend#readme",
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
