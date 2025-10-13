@@ -1,54 +1,51 @@
 const http = require('http');
 const url = require('url');
-const getUsers = require('./modules/users')
+const getUsers = require('./modules/users');
 
+const PORT = 3003;
 
-const server = http.createServer((request, response) =>  {
+const server = http.createServer((request, response) => {
     const parsedUrl = url.parse(request.url, true);
     const query = parsedUrl.query;
     
+
+    if (Object.keys(query).length === 0) {
+        response.writeHead(200, { 'Content-Type': 'text/plain' });
+        response.end('Hello, World!');
+        return;
+    }
+
     if ('hello' in query) {
         const name = query.hello;
         
         if (!name || name.trim() === '') {
-            response.statusCode = 400;
-            response.setHeader('Content-Type', 'text/plain');
+            response.writeHead(400, { 'Content-Type': 'text/plain' });
             response.end('Enter a name');
             return;
         }
 
-        response.statusCode = 200;
-        response.setHeader('Content-Type', 'text/plain');
+        response.writeHead(200, { 'Content-Type': 'text/plain' });
         response.end(`Hello, ${name}.`);
         return;
     }
-
+ 
     if ('users' in query) {
         try {
             const usersData = getUsers();
-            response.statusCode = 200;
-            response.setHeader('Content-Type', 'application/json');
+            response.writeHead(200, { 'Content-Type': 'application/json' });
             response.end(usersData);
             return;
         } catch (error) {
-            response.statusCode = 500;
+            response.writeHead(500);
             response.end();
             return;
         }
     }
 
-    if (Object.keys(query).length === 0) {
-        response.statusCode = 200;
-        response.setHeader('Content-Type', 'text/plain');
-        response.end('Hello, World!');
-        return;
-    }
-
-    response.statusCode = 500;
+    response.writeHead(500);
     response.end();
-
 });
 
-server.listen(3000, () => {
-    console.log("Сервер запущен по адресу http://127.0.0.1:3003");
-})
+server.listen(PORT, () => {
+    console.log(`Сервер запущен по адресу http://127.0.0.1:${PORT}`);
+});
